@@ -14,19 +14,24 @@ import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
 
-    final private ListItemClickListener mOnClickListener;
-
-    public interface  ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
-    }
-
     private int mNumberItems;
     private ArrayList mList;
+    private MyListener listener;
+    public ListAdapter() {
+        this.listener = null;
+    }
 
-    public ListAdapter(ArrayList list, ListItemClickListener listener) {
-        mOnClickListener = listener;
+    public ListAdapter(ArrayList list) {
         mList = list;
         mNumberItems = list.size();
+    }
+    public void setCustomListener(MyListener listener) {
+        this.listener = listener;
+    }
+
+    //define the interface
+    public interface MyListener {
+        void itemClicked(int position);
     }
 
     @NonNull
@@ -57,9 +62,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         public ListViewHolder(View itemView, Context context) {
             super(itemView);
             mContext = context;
-            itemView.setOnClickListener(this);
             //++++
-            listTV = (TextView) itemView.findViewById(R.id.tv_recipe);
+            listTV =  itemView.findViewById(R.id.tv_recipe);
         }
         void bind (int listIndex) {
            if (mList.get(listIndex) instanceof Recipe) {
@@ -71,7 +75,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(clickedPosition);
+            listener.itemClicked(clickedPosition);
         }
     }
 }

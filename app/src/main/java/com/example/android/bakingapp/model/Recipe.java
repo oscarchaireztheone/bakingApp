@@ -1,9 +1,10 @@
 package com.example.android.bakingapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Serializable{
     private String name;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
